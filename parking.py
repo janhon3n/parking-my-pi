@@ -44,10 +44,15 @@ def distance():
 while 1:
    dist = distance() # distance is in cm
    print ("Measured Distance = %.1f cm" % dist)
+   timeDelay = dist * 30 # in milliseconds
 
    GPIO.output(GPIO_BUZZER, True)
-   time.sleep(0.2)
+   sleepTime = 0.2
+
+   if timeDelay < 200:
+      sleepTime = timeDelay / 1000
+
+   time.sleep(sleepTime)
    GPIO.output(GPIO_BUZZER, False)
 
-   timeDelay = dist * 30 # in milliseconds
    time.sleep(timeDelay / 1000)
