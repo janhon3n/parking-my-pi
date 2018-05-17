@@ -14,10 +14,7 @@ GPIO_BUZZER = 19
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
 GPIO.setup(GPIO_BUZZER, GPIO.OUT)
-
-pwm = GPIO.PWM(19,500)
-pwm.start(0)
-pwm.ChangeDutyCycle(50)
+GPIO.output(GPIO_BUZZER, False)
  
 def distance():
     # set Trigger to HIGH
@@ -45,4 +42,12 @@ def distance():
     return (TimeElapsed * 34300) / 2
 
 while 1:
-   print ("Measured Distance = %.1f cm" % distance())
+   distance = distance()
+   print ("Measured Distance = %.1f cm" % distance)
+
+   GPIO.output(GPIO_BUZZER, True)
+   delay(200)
+   GPIO.output(GPIO_BUZZER, False)
+
+   delay = distance * 30
+   delay(delay)
