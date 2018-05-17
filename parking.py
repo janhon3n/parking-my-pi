@@ -15,7 +15,7 @@ GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
 GPIO.setup(GPIO_BUZZER, GPIO.OUT)
 
-pwm = IO.PWM(19,500)
+pwm = GPIO.PWM(19,500)
 pwm.start(0)
 pwm.ChangeDutyCycle(50)
  
