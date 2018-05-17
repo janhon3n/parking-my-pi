@@ -1,46 +1,52 @@
+# -*- coding: utf-8 -*-
 import RPi.GPIO as GPIO
 import time
- 
+
 GPIO.setmode(GPIO.BCM)
- 
+
 # Käytetyt pinnit
 GPIO_TRIGGER = 4
 GPIO_ECHO = 17
 GPIO_BUZZER = 19
- 
+
 # Aseta pinnien mode
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
 GPIO.setup(GPIO_BUZZER, GPIO.OUT)
 GPIO.output(GPIO_BUZZER, False)
- 
+
 def distance():
    # Togglaa triggeri
-    GPIO.output(GPIO_TRIGGER, True)
-    time.sleep(0.00001)
-    GPIO.output(GPIO_TRIGGER, False)
+   GPIO.output(GPIO_TRIGGER, True)
+   time.sleep(0.00001)
+   GPIO.output(GPIO_TRIGGER, False)
 
-    StartTime = time.time()
-    StopTime = time.time()
- 
+   StartTime = time.time()
+   StopTime = time.time()
+
    # Päivitä StartTimea kunnes pulssi alkaa
-    while GPIO.input(GPIO_ECHO) == 0:
-        StartTime = time.time()
- 
-   # Päivitä StopTimea kunnes pulssi päättyy
-    while GPIO.input(GPIO_ECHO) == 1:
-        StopTime = time.time()
- 
-   # Laske ero
-    TimeElapsed = StopTime - StartTime
+   while GPIO.input(GPIO_ECHO) == 0:
+      StartTime = time.time()
 
-    # Kerro äänen nopeudella (34300 cm/s)
-    # Jaa kahdella koska ääni menee edes takas
-    return (TimeElapsed * 34300) / 2
+   # Päivitä StopTimea kunnes pulssi päättyy
+   while GPIO.input(GPIO_ECHO) == 1:
+      StopTime = time.time()
+
+   # Laske ero
+   TimeElapsed = StopTime - StartTime
+   print ("Pulssin kesto on %.111f sekunttia" % TimeElapsed)
+
+   # Kerro äänen nopeudella (34300 cm/s)
+   # Jaa kahdella koska ääni menee edes takas
+   return (TimeElapsed * 34300) / 2
 
 while 1:
    dist = distance()
    print ("Mitattu pituus on %.1f cm" % dist)
+
+   if dist > 60.0:
+      time.sleep(1)
+      continue
 
    # laske timeDelay ja buzzerDelay (30 tuntu hyvältä kertoimelta)
    timeDelay = dist * 30
