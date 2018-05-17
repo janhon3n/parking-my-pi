@@ -34,7 +34,7 @@ def distance():
 
    # Laske ero
    TimeElapsed = StopTime - StartTime
-   print ("Pulssin kesto on %.111f sekunttia" % TimeElapsed)
+   print ("Pulssin kesto on %.3f s" % TimeElapsed)
 
    # Kerro äänen nopeudella (34300 cm/s)
    # Jaa kahdella koska ääni menee edes takas
