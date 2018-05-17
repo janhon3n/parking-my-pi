@@ -8,10 +8,16 @@ GPIO.setmode(GPIO.BCM)
 #set GPIO Pins
 GPIO_TRIGGER = 4
 GPIO_ECHO = 17
+GPIO_BUZZER = 19
  
 #set GPIO direction (IN / OUT)
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
+GPIO.setup(GPIO_BUZZER, GPIO.OUT)
+
+pwm = IO.PWM(19,500)
+pwm.start(0)
+pwm.ChangeDutyCycle(50)
  
 def distance():
     # set Trigger to HIGH
@@ -38,4 +44,5 @@ def distance():
     # and divide by 2, because there and back
     return (TimeElapsed * 34300) / 2
 
-print("DISTANCE: " + distance())
+while 1:
+   print ("Measured Distance = %.1f cm" % distance())
